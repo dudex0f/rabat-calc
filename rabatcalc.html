@@ -1,1 +1,297 @@
+<!DOCTYPE html>
+<html lang="pl" xml:lang="pl">
+<head>
+    <meta charset="UTF-8"/>
 
+    <style>
+        body {
+            font-size: 1em; 
+			font-family: serif, "Times New Roman", Times;
+            
+   			max-width: 500px;
+			margin: auto;
+			 
+            text-align: center;
+            color: #2D2640;
+
+        }
+		
+		.app_js_error {
+			   color: red;
+			   font-weight: bold;
+			   font-size: 1.1em; 
+			   border-size: 1px;
+			   border-style: ridge;
+			   border-color: red;
+               
+               font-size: 1em; 
+               text-align: center;
+               margin-top: 20px;
+
+		}
+		
+		div#content {
+			display: none;
+		}
+        
+        table#main_table {
+            width: 100%;
+            height: 100px;
+            border-collapse: collapse;
+            border-spacing:0; 
+        }
+        caption { 
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+		.tap_area {
+            /*color: red;
+            background: yellow;*/
+            width: 25%;
+            border-spacing: 1;
+            font-family: courier;
+            font-size: 0.8em;
+
+
+        }
+        input {
+            font-size: 0.8em;
+            /* border: none; */
+            border-style: groove;
+            
+        } 
+        [readonly] {
+            color: white;
+            background: #2D2640;
+            /* font-weight: bold; */
+        }
+        .input_label{
+            width: 50%;
+            text-align: right;
+
+        }
+        
+        div#div_status {
+            margin-top: 1em;
+            margin-bottom: 1em;
+            font-size: 0.6em;
+            text-align: right;
+        }
+        
+        .status_info {
+            color: grey;
+        }
+        
+        .status_error {
+            color: red;
+        }
+
+        
+        .foot {
+            padding-top: 22px;
+            font-size: 6px;
+        }
+        .author {
+            color: #000066;
+             letter-spacing: 2px;
+             text-shadow: 1px 1px #E5E5FF;
+        }
+        .appname {
+            color: #2D2640;
+            text-transform: capitalize;
+        }
+
+    </style>
+
+</head>
+    <body id="body" onload='load_app()'>
+	
+		<div id="app_message" class="app_js_error"><span>PrzeglÄdarka nie obsÅguje JavaScript<br>Aplikacja nie bÄdzie dziaÅaÄ.</span></div>
+		<div id="content">
+			<table id="main_table" visibility = "hidden">
+				<caption class="appname">app_name</caption>
+				<tr id="tr_rs">
+					<td id="tap_rs" class="tap_area" ontouchend="change_case(this)" onclick="change_case(this)"></td>
+					<td class="input_label">Rabat Sumaryczny</td>
+					<td>
+						<input id="rabat_sumaryczny" name="rabat_sumaryczny" type="text" maxlength="6" size="6" value='50.50' min="0" max="99" required onblur="validate_input_value(this) && f_oblicz()"/>
+					</td>
+					<td class="unit" ontouchend="change_unit()" onclick="change_unit()">%</td>
+				</tr>
+				<tr id="tr_r" >
+					<td id="tap_r" class="tap_area" ontouchend="change_case(this)" onclick="change_case(this)"></td>
+					<td class="input_label">Rabat</td>
+					<td>
+						<input id="rabat" name="rabat" type="input" maxlength="6" size="6" value='45.00' min="0" max="99" required onblur="validate_input_value(this) && f_oblicz()"/>
+					</td>
+					<td class="unit" ontouchend="change_unit()" onclick="change_unit()">%</td>
+				</tr>
+				<tr id="tr_k">
+					<td id="tap_k" class="tap_area" ontouchend="change_case(this)" onclick="change_case(this)"></td>
+					<td class="input_label">Kaskada</td>
+					<td>
+						<input id="kaskada" name="kaskada" type="input" maxlength="6" size="6" value='10.00'  min="0" max="99" required onblur="validate_input_value(this) && f_oblicz()">
+					</td>
+					<td class="unit" ontouchend="change_unit()" onclick="change_unit()">%</td>
+				</tr>
+			</table>
+			<div id="div_status" class="status_info">WprowadÅº dane i Oblicz</div>
+			<div id="outputs" class="outputs">
+					<input type="button" id="count" onclick="f_oblicz()" value="Oblicz"/>
+			
+            
+            </div>
+		
+			<div class="foot"><span class="appname">app_name</span>&nbsp;v<span class="appversion">app_version</span>, copyright by <span class="author">app_author</span></div>
+		</div>
+
+
+<script>
+
+	var app_name = "Kalkulator rabatowy"; 
+	var app_version = "0.5.0";
+	var app_author = "dudex0f";
+
+    var f_oblicz = RS;
+	var prod_base_price = 100;
+
+    function load_app() {
+        // alert(document.title);
+		document.title = app_name;
+		remove_js_error_msg_and_show_app();
+		display_app_details();	
+        change_case(document.getElementById("tap_k"));
+		
+	}
+
+	function remove_js_error_msg_and_show_app() {
+		document.getElementById("app_message").style.display = "none";
+		document.getElementById("content").style.display = "block";
+	}
+	
+	function display_app_details() {
+		app_name_object_list = document.getElementsByClassName("appname");
+		app_ver_object_list = document.getElementsByClassName("appversion");
+		app_author_object_list = document.getElementsByClassName("author");
+		
+		for (i=0; i < app_name_object_list.length; i++) { app_name_object_list[i].innerHTML = app_name ; }
+		for (i=0; i < app_ver_object_list.length; i++) { app_ver_object_list[i].innerHTML = app_version; }
+		for (i=0; i < app_author_object_list.length; i++) { app_author_object_list[i].innerHTML = app_author; }
+	
+	}
+	
+    function change_case(clicked_cell) {
+        // clicked_cell = table cell = TD 
+		// alert(clicked_cell);
+        
+        status_message("","");
+
+        var clicked_row = clicked_cell.parentElement;
+        var clicked_table = clicked_row.parentElement;
+
+        for (x = 0; x<clicked_table.children.length; x++) {
+           lock_table_row(clicked_table.children[x], "false");
+        } 
+
+       lock_table_row(clicked_row, "true") 
+
+
+        switch(clicked_cell.id) {
+            case "tap_r":
+                f_oblicz = R;
+                break;
+            case "tap_k":
+                f_oblicz = K;
+                break;
+            case "tap_rs":
+                f_oblicz = RS;
+                break;
+
+        }
+    }
+    
+	function lock_table_row(table_row, lock) {
+        if (lock == "true") { 
+            table_row.setAttribute("readonly", "true");
+            table_row.getElementsByTagName("input")[0].setAttribute("readonly", "true");
+            table_row.getElementsByClassName("tap_area")[0].innerHTML = "[ = ]"
+        }
+        else {
+            table_row.removeAttribute("readonly");
+            table_row.getElementsByTagName("input")[0].removeAttribute("readonly");
+            table_row.getElementsByClassName("tap_area")[0].innerHTML = "[  ]"
+        }
+    }
+    
+    function lock_count_button(lock) {
+    
+    if (lock) { document.getElementById("count").disabled = "true"; }
+    else { document.getElementById("count").removeAttribute("disabled"); }
+    
+    }
+	
+   	function validate_input_value(object) {
+    
+        if (object.hasAttribute("readonly")) { return true; }
+        
+        // lock_count_button(true);
+        
+        if (object.value == "") {
+            status_message("status_error", object.id + ": Podaj wartoÅÄ");
+            object.focus();
+            return false;
+        }
+        
+        object.value = object.value.replace(",",".");
+        
+        if (object.value.replace(".","").search(/\D/)>=0) {
+            status_message("status_error", object.value + ": NieprawidÅowy format.");
+            object.focus();
+            return false;
+        }
+        status_message("","");
+        // lock_count_button(false);
+        return true;
+        
+    }
+
+	function change_unit() {
+		// alert(prod_base_price);
+		return
+	}
+    
+    function status_message(level, message) {
+
+        var status_object = document.getElementById("div_status");
+        
+        if (level == "" || message == "") { 
+            status_object.style.visibility = "hidden";
+            return;
+        }
+        status_object.style.visibility = "visible";
+        status_object = document.getElementById("div_status");
+        status_object.innerHTML = message;
+        status_object.setAttribute("class", level);
+    
+    }
+	
+	function RS() {
+        r = parseFloat(document.getElementById('rabat').value);
+        k = parseFloat(document.getElementById('kaskada').value);
+        document.getElementById('rabat_sumaryczny').value =  (r + k - r*k/100).toFixed(2);
+    }
+    function K() {
+        r = parseFloat(document.getElementById('rabat').value);
+        rs = parseFloat(document.getElementById('rabat_sumaryczny').value);
+        document.getElementById('kaskada').value = ((rs-r)/(1-r/100)).toFixed(2);
+    }
+    function R() {
+        k = parseFloat(document.getElementById('kaskada').value);
+        rs = parseFloat(document.getElementById('rabat_sumaryczny').value);
+        document.getElementById('rabat').value = ((rs-k)/(1-k/100)).toFixed(2); 
+    }
+		
+		</script>
+
+</body>
+</html>
