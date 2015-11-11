@@ -1,3 +1,0 @@
-# rabatcalc
-# rabatcalc
-# rabatcalc
