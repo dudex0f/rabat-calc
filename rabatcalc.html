@@ -86,7 +86,9 @@
             color: red;
         }
 
-        
+        .status_warning {
+            color: #ff8000;
+        }
         .foot {
             padding-top: 22px;
             font-size: 0.27em;
@@ -214,7 +216,7 @@
         if (lock == "true") { 
             table_row.setAttribute("readonly", "true");
             table_row.getElementsByTagName("input")[0].setAttribute("readonly", "true");
-            table_row.getElementsByClassName("tap_area")[0].innerHTML = "[ = ]"
+            table_row.getElementsByClassName("tap_area")[0].innerHTML = "[ &#8594; ]"
         }
         else {
             table_row.removeAttribute("readonly");
@@ -249,6 +251,13 @@
             object.focus();
             return false;
         }
+        
+        if (object.value >= 100) {
+            status_message("status_warning", object.id + ": Wartość większa niż 100%");
+            
+            return true;
+        }
+
         status_message("","");
         // lock_count_button(false);
         return true;
