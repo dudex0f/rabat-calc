@@ -2,17 +2,17 @@
 <html lang="pl" xml:lang="pl">
 <head>
     <meta charset="UTF-8"/>
-
     <style>
         body {
-            font-size: 1em; 
+            font-size: 1.6em; 
 			font-family: serif, "Times New Roman", Times;
             
-   			max-width: 500px;
+   			max-width: 30em;
 			margin: auto;
 			 
             text-align: center;
             color: #2D2640;
+            padding-top: 0.5em;
 
         }
 		
@@ -72,8 +72,8 @@
         }
         
         div#div_status {
-            margin-top: 1em;
-            margin-bottom: 1em;
+            margin-top: 0.6em;
+            margin-bottom: 0.1em;
             font-size: 0.6em;
             text-align: right;
         }
@@ -89,7 +89,7 @@
         
         .foot {
             padding-top: 22px;
-            font-size: 6px;
+            font-size: 0.27em;
         }
         .author {
             color: #000066;
@@ -106,7 +106,7 @@
 </head>
     <body id="body" onload='load_app()'>
 	
-		<div id="app_message" class="app_js_error"><span>PrzeglÄdarka nie obsÅguje JavaScript<br>Aplikacja nie bÄdzie dziaÅaÄ.</span></div>
+		<div id="app_message" class="app_js_error"><span>Przeglądarka nie obsłguje JavaScript<br>Aplikacja nie będzie działać.</span></div>
 		<div id="content">
 			<table id="main_table" visibility = "hidden">
 				<caption class="appname">app_name</caption>
@@ -135,7 +135,7 @@
 					<td class="unit" ontouchend="change_unit()" onclick="change_unit()">%</td>
 				</tr>
 			</table>
-			<div id="div_status" class="status_info">WprowadÅº dane i Oblicz</div>
+			<div id="div_status" class="status_info">Wprowadź dane i Oblicz</div>
 			<div id="outputs" class="outputs">
 					<input type="button" id="count" onclick="f_oblicz()" value="Oblicz"/>
 			
@@ -149,7 +149,7 @@
 <script>
 
 	var app_name = "Kalkulator rabatowy"; 
-	var app_version = "0.5.0";
+	var app_version = "0.5.5";
 	var app_author = "dudex0f";
 
     var f_oblicz = RS;
@@ -237,7 +237,7 @@
         // lock_count_button(true);
         
         if (object.value == "") {
-            status_message("status_error", object.id + ": Podaj wartoÅÄ");
+            status_message("status_error", object.id + ": Podaj wartość");
             object.focus();
             return false;
         }
@@ -245,7 +245,7 @@
         object.value = object.value.replace(",",".");
         
         if (object.value.replace(".","").search(/\D/)>=0) {
-            status_message("status_error", object.value + ": NieprawidÅowy format.");
+            status_message("status_error", object.id + ": "+ object.value + ": Nieprawidłowy format.");
             object.focus();
             return false;
         }
